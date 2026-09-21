@@ -194,14 +194,14 @@ class ShutdownTimerApp(ctk.CTk):
     def _create_time_input(self, label: str, variable: tk.StringVar, column: int) -> None:
         field = ctk.CTkFrame(self.content, fg_color="transparent")
         field.grid(row=4, column=column, sticky="ew", padx=8)
-        field.grid_columnconfigure(0, weight=1)
+        field.grid_columnconfigure((0, 1), weight=1)
 
         ctk.CTkLabel(
             field,
             text=label,
             font=ctk.CTkFont(family="Segoe UI", size=12, weight="bold"),
             text_color="#94a3b8",
-        ).grid(row=0, column=0, pady=(0, 7))
+        ).grid(row=0, column=0, columnspan=2, pady=(0, 7))
         entry = ctk.CTkEntry(
             field,
             textvariable=variable,
@@ -212,10 +212,34 @@ class ShutdownTimerApp(ctk.CTk):
             corner_radius=10,
             border_color="#334155",
         )
-        entry.grid(row=1, column=0, sticky="ew")
+        entry.grid(row=1, column=0, columnspan=2, sticky="ew")
         entry.bind("<FocusIn>", lambda event: entry.select_range(0, tk.END))
         entry.bind("<FocusOut>", lambda event: self._normalize_time_field(variable))
         entry.bind("<Return>", lambda event: self._confirm_time_field(variable))
+
+        limit = 59 if label in {"Minutos", "Segundos"} else None
+        ctk.CTkButton(
+            field,
+            text="−",
+            command=lambda: self._adjust_time_field(variable, -1, limit),
+            width=42,
+            height=30,
+            corner_radius=8,
+            font=ctk.CTkFont(family="Segoe UI", size=18, weight="bold"),
+            fg_color="#334155",
+            hover_color="#475569",
+        ).grid(row=2, column=0, sticky="e", padx=(0, 3), pady=(8, 0))
+        ctk.CTkButton(
+            field,
+            text="+",
+            command=lambda: self._adjust_time_field(variable, 1, limit),
+            width=42,
+            height=30,
+            corner_radius=8,
+            font=ctk.CTkFont(family="Segoe UI", size=18, weight="bold"),
+            fg_color="#334155",
+            hover_color="#475569",
+        ).grid(row=2, column=1, sticky="w", padx=(3, 0), pady=(8, 0))
 
     def _set_initial_state(self) -> None:
         self.cancel_button.configure(state="disabled")
@@ -225,6 +249,15 @@ class ShutdownTimerApp(ctk.CTk):
         value = variable.get().strip()
         if not value:
             variable.set("00")
+
+    @staticmethod
+    def _adjust_time_field(variable: tk.StringVar, amount: int, limit: int | None) -> None:
+        value = variable.get().strip()
+        current = int(value) if value.isdigit() else 0
+        adjusted = max(0, current + amount)
+        if limit is not None:
+            adjusted = min(limit, adjusted)
+        variable.set(f"{adjusted:02d}")
 
     def _confirm_time_field(self, variable: tk.StringVar) -> str:
         self._normalize_time_field(variable)

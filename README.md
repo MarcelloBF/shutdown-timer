@@ -7,7 +7,7 @@ Um temporizador simples e visual para programar o desligamento do computador no 
 Se você recebeu o executável, não precisa instalar Python nem bibliotecas:
 
 1. Abra `PCShutdownTimer.exe`.
-2. Informe horas, minutos e segundos.
+2. Informe horas, minutos e segundos, ou use os botões `−` e `+` para ajustar os valores.
 3. Clique em **Iniciar desligamento**.
 4. Confirme a operação.
 
@@ -17,6 +17,7 @@ O Windows será programado para desligar quando a contagem chegar a zero. Para i
 ## Recursos
 
 - Contagem regressiva em formato `HH:MM:SS`.
+- Botões `−` e `+` para ajustar horas, minutos e segundos sem digitação.
 - Horário exato previsto para o desligamento.
 - Confirmação antes de programar a ação.
 - Cancelamento seguro usando `shutdown /a`.
