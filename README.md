@@ -11,6 +11,8 @@ Se você recebeu o executável, não precisa instalar Python nem bibliotecas:
 3. Clique em **Iniciar desligamento**.
 4. Confirme a operação.
 
+Para a versão distribuída no GitHub, baixe `PCShutdownTimer-onedir.zip`, extraia a pasta e abra `PCShutdownTimer.exe`. Essa distribuição evita o empacotamento de arquivo único, que pode gerar mais falsos positivos em alguns antivírus.
+
 O Windows será programado para desligar quando a contagem chegar a zero. Para interromper a operação, clique em **Cancelar**.
 
 
